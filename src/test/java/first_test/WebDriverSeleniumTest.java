@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import waits.CustomConditions;
 
@@ -19,10 +21,21 @@ import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 public class WebDriverSeleniumTest {
+    private WebDriver driver;
 
-    @Test
+    @BeforeMethod(alwaysRun = true)
+    public void browserSetup(){
+        driver = new ChromeDriver();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void browserTearDown(){
+        driver.quit();
+        driver = null;
+    }
+
+    @Test(description = "First test, Jira binding can be here")
     public void commonSearchTermResultsNotEmpty() {
-        WebDriver driver = new ChromeDriver();
 
         driver.get("https://career.habr.com/");
 
@@ -50,8 +63,9 @@ public class WebDriverSeleniumTest {
 
         System.out.println("Results count: " + searchResults.size());
 
-        Assert.assertTrue(searchResults.size() > 0, "Search results are empty!");
-        driver.quit();
+        Assert.assertFalse(searchResults.size() > 0, "Search results are empty!");
+        //этот тест зафейлится, и код после асершена не выполнится, т.е. quit не закроет браузер. Надо делать beforeMethod & afterMethod.
+
     }
 
     private static WebElement waitForElementLocatedBy(WebDriver driver, By by) {
