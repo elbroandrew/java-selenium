@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.function.Function;
 
 public class SyncFluent {
 
@@ -29,9 +30,6 @@ public class SyncFluent {
         WebElement searchBtn = driver.findElement(By.xpath("//button[contains(@class, 'l-page-title__form-submit')]"));
         searchBtn.click();
         //risky point here
-        new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions
-                        .presenceOfAllElementsLocatedBy(By.xpath("//div[contains(@class, 'vacancy-card__title')]")));
 
         Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
                 .withTimeout(Duration.ofSeconds(10))
@@ -40,7 +38,13 @@ public class SyncFluent {
                 .ignoring(StaleElementReferenceException.class)
                 .withMessage("Timeout for waiting search result list was exceeded");
 
-        List<WebElement> searchResults = driver.findElements(By.xpath("//div[contains(@class, 'vacancy-card__title')]"));
+        List<WebElement> searchResults = wait.until(new Function<WebDriver, List<WebElement>>() {
+            @Override
+            public List<WebElement> apply(WebDriver webDriver) {
+                return driver.findElements(By.xpath("//div[contains(@class, 'vacancy-card__title')]"));
+            }
+        });
+
         System.out.println("Results count: " + searchResults.size());
 
         driver.quit();
