@@ -1,4 +1,4 @@
-package waits;
+package first_test;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -9,19 +9,23 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import waits.CustomConditions;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 
-public class SyncFluent {
+public class WebDriverSeleniumTest {
 
-    public static void main(String[] args) throws InterruptedException {
+    @Test
+    public void commonSearchTermResultsNotEmpty() {
         WebDriver driver = new ChromeDriver();
 
         driver.get("https://career.habr.com/");
-        //risky point here
+
 //        new WebDriverWait(driver, Duration.ofSeconds(5))
 //                .until(CustomConditions.jQueryAJAXCompleted());
 
@@ -29,7 +33,6 @@ public class SyncFluent {
         searchInput.sendKeys("QA Java");
         WebElement searchBtn = driver.findElement(By.xpath("//button[contains(@class, 'l-page-title__form-submit')]"));
         searchBtn.click();
-        //risky point here
 
         Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
                 .withTimeout(Duration.ofSeconds(10))
@@ -47,6 +50,7 @@ public class SyncFluent {
 
         System.out.println("Results count: " + searchResults.size());
 
+        Assert.assertTrue(searchResults.size() > 0, "Search results are empty!");
         driver.quit();
     }
 
