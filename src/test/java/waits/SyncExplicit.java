@@ -1,3 +1,5 @@
+package waits;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,16 +12,15 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-public class HelloWebdriver {
+public class SyncExplicit {
     public static void main(String[] args) throws InterruptedException {
         WebDriver driver = new ChromeDriver();
 
         driver.get("https://career.habr.com/");
         //risky point here
         new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.presenceOfElementLocated(By.className("l-page-title__input")));
+                .until(CustomConditions.jQueryAJAXCompleted());
 
-        //WebElement searchInput = driver.findElement(By.className("l-page-title__input"));
         WebElement searchInput = waitForElementLocatedBy(driver, By.className("l-page-title__input"));
         searchInput.sendKeys("QA Java");
         WebElement searchBtn = driver.findElement(By.xpath("//button[contains(@class, 'l-page-title__form-submit')]"));
@@ -40,3 +41,4 @@ public class HelloWebdriver {
                 .until(ExpectedConditions.presenceOfElementLocated(by));
     }
 }
+
