@@ -63,8 +63,7 @@ public class WebDriverSeleniumTest {
 
         System.out.println("Results count: " + searchResults.size());
 
-        Assert.assertFalse(searchResults.size() > 0, "Search results are empty!");
-        //этот тест зафейлится, и код после асершена не выполнится, т.е. quit не закроет браузер. Надо делать beforeMethod & afterMethod.
+        Assert.assertTrue(searchResults.size() > 0, "Search results are empty!");
 
     }
 
