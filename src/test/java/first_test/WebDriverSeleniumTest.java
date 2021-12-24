@@ -26,8 +26,8 @@ public class WebDriverSeleniumTest {
 
         driver.get("https://career.habr.com/");
 
-//        new WebDriverWait(driver, Duration.ofSeconds(5))
-//                .until(CustomConditions.jQueryAJAXCompleted());
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(CustomConditions.jQueryAJAXCompleted());
 
         WebElement searchInput = waitForElementLocatedBy(driver, By.className("l-page-title__input"));
         searchInput.sendKeys("QA Java");
