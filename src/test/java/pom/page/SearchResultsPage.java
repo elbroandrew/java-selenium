@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
 import java.util.List;
 
-public class SearchResultsPage {
+public class SearchResultsPage extends AbstractPAge {
     private final String splitString ="\\s";
     private WebDriver driver;
     private String searchTerm;
@@ -21,6 +21,7 @@ public class SearchResultsPage {
     private List<WebElement> generalSearchResults;
 
     public SearchResultsPage(WebDriver driver, String searchTerm){
+        super(driver);
         this.searchTerm = searchTerm;
         this.driver = driver;
         PageFactory.initElements(driver,this);
@@ -34,18 +35,17 @@ public class SearchResultsPage {
     public int countResultsNumberWithSearchTerm(){
         List<WebElement> resultsNumberWithSearchTerm = driver.findElements(By.xpath("//div[contains(@class, 'vacancy-card__title')]"));
         System.out.println("Search results:  " + resultsNumberWithSearchTerm.size());
-    }
-
-//        new WebDriverWait(driver, Duration.ofSeconds(10))
-//            .until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[contains(@class, 'vacancy-card__title')]")));
-
-//    List<WebElement> searchResults = driver.findElements(By.xpath("//div[contains(@class, 'vacancy-card__title')]"));
-//        System.out.println("Results count: " + searchResults.size());
-
+        return resultsNumberWithSearchTerm.size();
+    };
 
     private String buildLocatorForSearch(){
         String locatorForSearch = defaultLocator;
         System.out.println("DEBUG: Final locator with search terms: " + locatorForSearch);
         return locatorForSearch;
+    }
+
+    @Override
+    protected AbstractPAge openPage() {
+        throw new RuntimeException("think twice whether you need abstract page");
     }
 }
