@@ -11,8 +11,6 @@ import java.time.Duration;
 import java.util.List;
 
 public class SearchResultsPage extends AbstractPAge {
-    private final String splitString ="\\s";
-    private WebDriver driver;
     private String searchTerm;
 
     private String defaultLocator = "//div[contains(@class, 'vacancy-card__title')]";
