@@ -36,7 +36,7 @@ public class HomePage {
         searchButton.click();
         return new SearchResultsPage(driver, term);
     }
-
+//url, text - не изм во время рантайма (иначе получу stale element exception)
 //
 //    WebElement searchInput = waitForElementLocatedBy(driver, By.className("l-page-title__input"));
 //        searchInput.sendKeys("QA Java");
