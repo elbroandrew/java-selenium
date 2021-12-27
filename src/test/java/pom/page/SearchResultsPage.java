@@ -23,8 +23,6 @@ public class SearchResultsPage extends AbstractPAge {
     public SearchResultsPage(WebDriver driver, String searchTerm){
         super(driver);
         this.searchTerm = searchTerm;
-        this.driver = driver;
-        PageFactory.initElements(driver,this);
     }
 
     public int countGeneralNumberOfSearchResults(){

@@ -10,9 +10,8 @@ import waits.CustomConditions;
 
 import java.time.Duration;
 
-public class HomePage {
+public class HomePage extends AbstractPAge {
     private static final String HOMEPAGE_URL = "https://career.habr.com/";
-    private WebDriver driver;
 
     @FindBy(className = "l-page-title__input")
     private WebElement searchInput;
@@ -21,26 +20,19 @@ public class HomePage {
     private WebElement searchButton;
 
     public HomePage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+        super(driver);
     };
-    public HomePage openPage(){
+
+    public HomePage openPage() {
         driver.get(HOMEPAGE_URL);
-        new WebDriverWait(driver, Duration.ofSeconds(5))
+        new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
                 .until(CustomConditions.jQueryAJAXCompleted());
         return this;
     };
 
-    public SearchResultsPage searchForTerms(String term){
-        searchInput.sendKeys("QA Java");
+    public SearchResultsPage searchForTerms(String term) {
+        searchInput.sendKeys(term);
         searchButton.click();
         return new SearchResultsPage(driver, term);
     }
-//url, text - не изм во время рантайма (иначе получу stale element exception)
-//
-//    WebElement searchInput = waitForElementLocatedBy(driver, By.className("l-page-title__input"));
-//        searchInput.sendKeys("QA Java");
-//
-//    WebElement searchBtn = driver.findElement(By.xpath("//button[contains(@class, 'l-page-title__form-submit')]"));
-//        searchBtn.click();
 }

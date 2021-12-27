@@ -24,12 +24,11 @@ public class WebDriverSeleniumTest {
 
     @Test(description = "First test, Jira binding can be here")
     public void commonSearchTermResultsNotEmpty() {
-        int expectedSearchResultsNumber =  new HomePage()
+        int expectedSearchResultsNumber =  new HomePage(driver)
                 .openPage()
                 .searchForTerms("QA Java")
-                .countSearchResults();
+                .countResultsNumberWithSearchTerm();
 
-        //page interactions are complete, final verification goes below
         Assert.assertTrue( expectedSearchResultsNumber > 0, "Search results are empty!");
 
     }
