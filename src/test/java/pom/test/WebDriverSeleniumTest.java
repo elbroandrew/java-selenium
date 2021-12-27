@@ -13,6 +13,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pom.page.HomePage;
 import waits.CustomConditions;
 
 import java.time.Duration;
@@ -36,16 +37,14 @@ public class WebDriverSeleniumTest {
 
     @Test(description = "First test, Jira binding can be here")
     public void commonSearchTermResultsNotEmpty() {
+        int expectedSearchResultsNumber =  new HomePage()
+                .openPage()
+                .searchForTerms("QA Java")
+                .countSearchResults();
 
-
-
-
-        Assert.assertTrue(searchResults.size() > 0, "Search results are empty!");
+        //page interactions are complete, final verification goes below
+        Assert.assertTrue( expectedSearchResultsNumber > 0, "Search results are empty!");
 
     }
 
-    private static WebElement waitForElementLocatedBy(WebDriver driver, By by) {
-        return new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(by));
-    }
 }
